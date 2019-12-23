@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCardModule, MatToolbarModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatToolbarModule} from '@angular/material';
 import { QuizCardComponent } from './quiz-card/quiz-card.component';
 
 @NgModule({
@@ -15,7 +15,8 @@ import { QuizCardComponent } from './quiz-card/quiz-card.component';
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
