@@ -19,3 +19,14 @@
   margin-left: 8px;
   width: 25%;
 }
+
+.correct {
+  background: green;
+  color: white !important;
+}
+
+.wrong {
+  background: red;
+  color: white !important;
+}
+

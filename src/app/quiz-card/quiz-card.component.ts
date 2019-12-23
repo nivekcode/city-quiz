@@ -9,11 +9,16 @@ import {Question} from '../quiz.service';
 export class QuizCardComponent implements OnInit {
 
   @Input() question: Question;
+  answeredCorrectly: boolean;
 
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+  answer(selectedAnswer: string) {
+    this.answeredCorrectly = selectedAnswer === this.question.correctAnswer;
   }
 
 }

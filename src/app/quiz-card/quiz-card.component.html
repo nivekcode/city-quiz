@@ -6,7 +6,13 @@
   </mat-card-header>
   <img mat-card-image [src]="'assets/' + question.image" alt="Photo of a Shiba Inu">
   <mat-card-actions class="answer-section">
-    <button *ngFor="let selection of question.possibleSelections" mat-stroked-button color="primary">
+    <button [disabled]="answeredCorrectly !== undefined" *ngFor="let selection of question.possibleSelections"
+            mat-stroked-button color="primary"
+            [ngClass]="{
+              'correct': answeredCorrectly && selection === question.correctAnswer,
+              'wrong': answeredCorrectly === false && selection === question.correctAnswer
+             }"
+            (click)="answer(selection)">
       {{selection}}
     </button>
   </mat-card-actions>
