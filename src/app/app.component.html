@@ -3,5 +3,8 @@
 </mat-toolbar>
 
 <div class="quiz-card-container">
-  <quiz-card *ngFor="let question of questions" [question]="question"></quiz-card>
+  <quiz-card *ngFor="let question of questions"
+             [question]="question"
+             (questionAnswered)="showNewQuestion()"
+  ></quiz-card>
 </div>

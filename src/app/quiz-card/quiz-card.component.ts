@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Question} from '../quiz.service';
 
 @Component({
@@ -6,19 +6,15 @@ import {Question} from '../quiz.service';
   templateUrl: './quiz-card.component.html',
   styleUrls: ['./quiz-card.component.css']
 })
-export class QuizCardComponent implements OnInit {
+export class QuizCardComponent {
 
   @Input() question: Question;
+  @Output() questionAnswered = new EventEmitter<boolean>();
   answeredCorrectly: boolean;
-
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
 
   answer(selectedAnswer: string) {
     this.answeredCorrectly = selectedAnswer === this.question.correctAnswer;
+    this.questionAnswered.next(this.answeredCorrectly);
   }
 
 }

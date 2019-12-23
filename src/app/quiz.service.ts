@@ -32,7 +32,7 @@ export class QuizService {
     },
     {
       image: 'lisbon.jpeg',
-      possibleSelections: ['Rom', 'San Francisco', 'Lisbon', 'London'],
+      possibleSelections: ['Rom', 'Paris', 'Lisbon', 'London'],
       correctAnswer: 'Lisbon'
     },
     {

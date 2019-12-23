@@ -16,4 +16,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.questions.push(this.quizservice.getNextQuestion());
   }
+
+  showNewQuestion() {
+    this.questions.push(this.quizservice.getNextQuestion());
+  }
 }
