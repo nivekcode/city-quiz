@@ -2,3 +2,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.start-quiz-button {
+  margin: 20px;
+}

@@ -9,6 +9,7 @@ import {Question, QuizService} from './quiz.service';
 export class AppComponent implements OnInit {
 
   questions: Question[] = [];
+  quizStarted = false;
 
   constructor(private quizservice: QuizService) {
   }
@@ -19,5 +20,9 @@ export class AppComponent implements OnInit {
 
   showNewQuestion() {
     this.questions.push(this.quizservice.getNextQuestion());
+  }
+
+  startQuiz() {
+    this.quizStarted = true;
   }
 }

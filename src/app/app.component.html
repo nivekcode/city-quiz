@@ -2,7 +2,12 @@
   <span>City quiz</span>
 </mat-toolbar>
 
-<div class="quiz-card-container">
+<button *ngIf="!quizStarted"
+        mat-raised-button color="primary"
+        class="start-quiz-button"
+        (click)="startQuiz()">Start quiz</button>
+
+<div class="quiz-card-container" *ngIf="quizStarted">
   <quiz-card *ngFor="let question of questions"
              [question]="question"
              (questionAnswered)="showNewQuestion()"
