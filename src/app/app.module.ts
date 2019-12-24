@@ -8,8 +8,7 @@ import { QuizCardComponent } from './quiz-card/quiz-card.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    QuizCardComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -7,9 +7,5 @@
         class="start-quiz-button"
         (click)="startQuiz()">Start quiz</button>
 
-<div class="quiz-card-container" *ngIf="quizStarted">
-  <quiz-card *ngFor="let question of questions"
-             [question]="question"
-             (questionAnswered)="showNewQuestion()"
-  ></quiz-card>
+<div #quizContainer class="quiz-card-container">
 </div>
