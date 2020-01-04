@@ -1,5 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, NgModule, Output} from '@angular/core';
 import {Question} from '../quiz.service';
+import {MatButtonModule, MatCardModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
 
 @Component({
   selector: 'quiz-card',
@@ -17,4 +20,11 @@ export class QuizCardComponent {
     this.questionAnswered.next(this.answeredCorrectly);
   }
 
+}
+
+@NgModule({
+  declarations: [QuizCardComponent],
+  imports: [CommonModule, MatCardModule, MatButtonModule]
+})
+class QuizCardModule {
 }
