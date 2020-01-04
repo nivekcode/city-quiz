@@ -1,53 +1,47 @@
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  Injector,
-  OnInit,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import {Question, QuizService} from './quiz.service';
-import {QuizCardComponent} from './quiz-card/quiz-card.component';
+import {Component, ComponentFactoryResolver, Injector, OnDestroy, SimpleChange, ViewChild, ViewContainerRef} from '@angular/core';
+import {QuizService} from './quiz.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnDestroy {
 
   @ViewChild('quizContainer', {read: ViewContainerRef, static: true}) quizContainer: ViewContainerRef;
-  questions: Question[] = [];
   quizStarted = false;
-  private quizCardFactory: ComponentFactory<QuizCardComponent>;
+  private destroy$ = new Subject();
 
   constructor(private quizservice: QuizService, private cfr: ComponentFactoryResolver, private injector: Injector) {
   }
 
-  ngOnInit(): void {
-    // this.questions.push(this.quizservice.getNextQuestion());
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  ngAfterViewInit(): void {
-    console.log('Quicontainer', this.quizContainer);
-  }
-
-  showNewQuestion() {
-    const componenRef = this.quizContainer.createComponent(this.quizCardFactory, null, this.injector);
-    const instance = componenRef.instance;
-    instance.question = this.quizservice.getNextQuestion();
-    instance.questionAnswered.subscribe(() => this.showNewQuestion());
+  async showNewQuestion() {
+    this.lazyLoadQuizCard();
   }
 
   async startQuiz() {
-    const module = await import('./quiz-card/quiz-card.component');
-    this.quizCardFactory = this.cfr.resolveComponentFactory(module.QuizCardComponent);
-    const componenRef = this.quizContainer.createComponent(this.quizCardFactory, null, this.injector);
+    await this.lazyLoadQuizCard();
+    this.quizStarted = true;
+  }
+
+  private async lazyLoadQuizCard() {
+    const {QuizCardComponent} = await import('./quiz-card/quiz-card.component');
+    const quizCardFactory = this.cfr.resolveComponentFactory(QuizCardComponent);
+    const componenRef = this.quizContainer.createComponent(quizCardFactory, null, this.injector);
     const instance = componenRef.instance;
     instance.question = this.quizservice.getNextQuestion();
-    instance.questionAnswered.subscribe(() => this.showNewQuestion());
-    this.quizStarted = true;
+    instance.questionAnswered.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => this.showNewQuestion());
+    (instance as any).ngOnChanges({
+      question: new SimpleChange(null, instance.question, true)
+    });
   }
 }
