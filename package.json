@@ -8,7 +8,8 @@
     "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ./dist/city-quiz/stats-es2015.json"
   },
   "private": true,
   "dependencies": {
@@ -31,9 +32,9 @@
     "@angular/cli": "~9.0.0-rc.6",
     "@angular/compiler-cli": "~9.0.0-rc.6",
     "@angular/language-service": "~9.0.0-rc.6",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -45,6 +46,7 @@
     "protractor": "~5.4.2",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
-    "typescript": "~3.6.4"
+    "typescript": "~3.6.4",
+    "webpack-bundle-analyzer": "^3.6.0"
   }
 }
