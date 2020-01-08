@@ -1,28 +1,46 @@
-import {Component, OnInit} from '@angular/core';
-import {Question, QuizService} from './quiz.service';
+import {Component, ComponentFactoryResolver, Injector, OnDestroy, SimpleChange, ViewChild, ViewContainerRef} from '@angular/core';
+import {QuizService} from './quiz.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnDestroy {
 
-  questions: Question[] = [];
+  @ViewChild('quizContainer', {read: ViewContainerRef}) quizContainer: ViewContainerRef;
   quizStarted = false;
+  private destroy$ = new Subject();
 
-  constructor(private quizservice: QuizService) {
+  constructor(private quizservice: QuizService, private cfr: ComponentFactoryResolver, private injector: Injector) {
   }
 
-  ngOnInit(): void {
-    this.questions.push(this.quizservice.getNextQuestion());
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  showNewQuestion() {
-    this.questions.push(this.quizservice.getNextQuestion());
+  async showNewQuestion() {
+    this.lazyLoadQuizCard();
   }
 
-  startQuiz() {
+  async startQuiz() {
+    await this.lazyLoadQuizCard();
     this.quizStarted = true;
+  }
+
+  private async lazyLoadQuizCard() {
+    const {QuizCardComponent} = await import('./quiz-card/quiz-card.component');
+    const quizCardFactory = this.cfr.resolveComponentFactory(QuizCardComponent);
+    const {instance} = this.quizContainer.createComponent(quizCardFactory, null, this.injector);
+    instance.question = this.quizservice.getNextQuestion();
+    instance.questionAnswered.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(() => this.showNewQuestion());
+    (instance as any).ngOnChanges({
+      question: new SimpleChange(null, instance.question, true)
+    });
   }
 }
