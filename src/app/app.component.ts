@@ -10,7 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class AppComponent implements OnDestroy {
 
-  @ViewChild('quizContainer', {read: ViewContainerRef, static: true}) quizContainer: ViewContainerRef;
+  @ViewChild('quizContainer', {read: ViewContainerRef}) quizContainer: ViewContainerRef;
   quizStarted = false;
   private destroy$ = new Subject();
 
@@ -34,8 +34,7 @@ export class AppComponent implements OnDestroy {
   private async lazyLoadQuizCard() {
     const {QuizCardComponent} = await import('./quiz-card/quiz-card.component');
     const quizCardFactory = this.cfr.resolveComponentFactory(QuizCardComponent);
-    const componenRef = this.quizContainer.createComponent(quizCardFactory, null, this.injector);
-    const instance = componenRef.instance;
+    const {instance} = this.quizContainer.createComponent(quizCardFactory, null, this.injector);
     instance.question = this.quizservice.getNextQuestion();
     instance.questionAnswered.pipe(
       takeUntil(this.destroy$)
