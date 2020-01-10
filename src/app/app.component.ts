@@ -37,7 +37,7 @@ export class AppComponent implements OnDestroy {
     const {instance} = this.quizContainer.createComponent(quizCardFactory, null, this.injector);
     instance.question = this.quizservice.getNextQuestion();
     instance.questionAnswered.pipe(
-      takeUntil(this.destroy$)
+      takeUntil(instance.destroy$)
     ).subscribe(() => this.showNewQuestion());
     (instance as any).ngOnChanges({
       question: new SimpleChange(null, instance.question, true)
