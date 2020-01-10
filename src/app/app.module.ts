@@ -1,8 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCardModule, MatToolbarModule} from '@angular/material';
 
 @NgModule({
@@ -13,10 +13,10 @@ import {MatButtonModule, MatCardModule, MatToolbarModule} from '@angular/materia
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    MatCardModule,
     MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
