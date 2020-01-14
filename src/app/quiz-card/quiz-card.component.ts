@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, NgModule, OnChanges, OnDestroy, Output, SimpleChanges} from '@angular/core';
 import {Question} from '../quiz.service';
-import {MatButtonModule, MatCardModule} from '@angular/material';
 import {CommonModule} from '@angular/common';
 import {Subject} from 'rxjs';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'quiz-card',
